@@ -7,7 +7,7 @@ import css from "./App.module.css";
 
 
 export const App = () =>  {
-  const [marks, setMarks] = useState({
+  const [app, setApp] = useState({
     good: 0,
     neutral: 0,
     bad: 0,
@@ -15,22 +15,29 @@ export const App = () =>  {
   
 
   const leaveFeedback = option => {
-    setMarks({ ...marks, [option]: marks[option]+1})    
+    setApp(prevState => ({ ...prevState, [option]: prevState[option] + 1, }));    
       
     };
   
 
 
-const countTotalFeedback = () =>
-  Object.values(marks).reduce((acc, curr) => acc + curr, 0);
+  const countTotalFeedback = () => {
+
+    return Object.values(app).reduce((acc, curr) => acc + curr, 0);
+  }
 
 
-  const countPositiveFeedbackPercentage = () => 
-  Math.round( (marks.good * 100) / countTotalFeedback());
+  const countPositiveFeedbackPercentage = () => {
+    
+    const { good } = app;
+    return Math.round( (good * 100) / countTotalFeedback());
+
+  }
+  
     
 const total = countTotalFeedback();
 const percent = countPositiveFeedbackPercentage();
-const options = Object.keys(marks);
+const options = Object.keys(app);
     
 return (
       <div className={css.container}>
@@ -43,9 +50,9 @@ return (
         <Section title="Statistics">
           {total > 0 ? (
             <Statistics
-              good={marks.good}
-              neutral={marks.neutral}
-              bad={marks.bad}
+              good={app.good}
+              neutral={app.neutral}
+              bad={app.bad}
               total={total}
               positivePercentage={percent}
             />
